@@ -1,3 +1,0 @@
-dufa_admin_homepage:
-    path:     /
-    defaults: { _controller: DufaAdminBundle:Default:index }

@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Dufa\Bundle\ApiBundle\DufaApiBundle(),
             new Dufa\Bundle\CoreBundle\DufaCoreBundle(),
-            new Dufa\Bundle\AdminBundle\DufaAdminBundle(),
+            new Dufa\Bundle\WebBundle\DufaWebBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

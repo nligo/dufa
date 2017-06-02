@@ -1,5 +1,5 @@
-dufa_admin:
-    resource: "@DufaAdminBundle/Resources/config/routing.yml"
+dufa_web:
+    resource: "@DufaWebBundle/Resources/config/routing.yml"
     prefix:   /
 
 dufa_core:

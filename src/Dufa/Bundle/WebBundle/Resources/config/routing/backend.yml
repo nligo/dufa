@@ -1,0 +1,7 @@
+backend_index_index:
+    path:     /
+    defaults: { _controller: DufaWebBundle:Backend\Index:index }
+
+backend_index_welcome:
+    path:     /welcome
+    defaults: { _controller: DufaWebBundle:Backend\Index:welcome }
