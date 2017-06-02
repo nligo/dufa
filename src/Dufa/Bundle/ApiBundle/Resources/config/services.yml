@@ -1,0 +1,4 @@
+services:
+#    dufa_api.example:
+#        class: Dufa\Bundle\ApiBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

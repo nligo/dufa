@@ -1,3 +1,15 @@
+dufa_admin:
+    resource: "@DufaAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
+dufa_core:
+    resource: "@DufaCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+dufa_api:
+    resource: "@DufaApiBundle/Resources/config/routing.yml"
+    prefix:   /
+
 NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing/swaggerui.xml"
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
