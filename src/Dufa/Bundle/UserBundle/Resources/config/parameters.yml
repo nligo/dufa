@@ -1,0 +1,9 @@
+parameters:
+    initialize_roles:
+        ADMIN: "系统管理员"
+        ADVERTISER: "广告主"
+        OPERATOR: "运营人员"
+        FINANCE:  "财务"
+        SALES:  "销售员"
+        SALES:  "销售员"
+        DEVELOPER:  "开发者"

@@ -1,0 +1,33 @@
+services:
+      dufa_user_manager.user:
+          class: Dufa\Bundle\UserBundle\Manager\UserManager
+          arguments:
+              dm: "@doctrine_mongodb.odm.document_manager"
+              class: Dufa\Bundle\UserBundle\Document\User
+              container: "@service_container"
+
+      dufa_user_manager.roles:
+          class: Dufa\Bundle\UserBundle\Manager\RolesManager
+          arguments:
+              dm: "@doctrine_mongodb.odm.document_manager"
+              class: Dufa\Bundle\UserBundle\Document\Roles
+
+      dufa_user_manager.modules:
+          class: Dufa\Bundle\UserBundle\Manager\ModulesManager
+          arguments:
+              dm: "@doctrine_mongodb.odm.document_manager"
+              class: Dufa\Bundle\UserBundle\Document\Modules
+
+      dufa_user_manager.userprofile:
+          class: Dufa\Bundle\UserBundle\Manager\UserProfileManager
+          arguments:
+              dm: "@doctrine_mongodb.odm.document_manager"
+              class: Dufa\Bundle\UserBundle\Document\UserProfile
+              container: "@service_container"
+
+      dufa_user_manager.rolepermissions:
+          class: Dufa\Bundle\UserBundle\Manager\RolePermissionsManager
+          arguments:
+              dm: "@doctrine_mongodb.odm.document_manager"
+              class: Dufa\Bundle\UserBundle\Document\RolePermissions
+              container: "@service_container"

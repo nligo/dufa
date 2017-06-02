@@ -1,0 +1,3 @@
+services:
+    dufa_user_service.datadetection:
+        class: Dufa\Bundle\UserBundle\Services\DataDetection

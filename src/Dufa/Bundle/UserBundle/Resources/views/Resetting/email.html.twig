@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ company_name }}修改密码告知：<br>
+
+您提出了重置密码的申请，请点击下面链接并输入信息完成账号密码修改，如果不是您所操作，请忽略该邮件。<br>
+<a href="{{ url('appcoachs_user_resetting_reset',{ 'token': user.id }) }}">重置密码</a>
+</body>
+</html>

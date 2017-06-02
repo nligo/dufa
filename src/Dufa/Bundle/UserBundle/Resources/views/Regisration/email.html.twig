@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+非常荣幸，欢迎您加入到{{ company_name }}！<br>
+
+您需要激活您的账户，请点击下面链接并输入信息完成账号注册。<br>
+<a href="{{ url('appcoachs_user_registration_confirm',{ 'token': user.confirmToken }) }}">用户激活</a>
+</body>
+</html>

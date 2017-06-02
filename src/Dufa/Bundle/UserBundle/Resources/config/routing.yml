@@ -1,0 +1,3 @@
+dufa_user_index_userinfo:
+    path:     /api/v1/user-info
+    defaults: { _controller: DufaUserBundle:Index:userInfo }
