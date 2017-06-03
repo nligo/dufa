@@ -1,9 +1,9 @@
 services:
       dufa_user_manager.user:
-          class: Dufa\UserBundle\Manager\UserManager
+          class: Dufa\Bundle\UserBundle\Manager\UserManager
           arguments:
               - "@doctrine.orm.entity_manager"
-              - Dufa\UserBundle\Manager\UserManager
+              - Dufa\Bundle\UserBundle\Entity\User
               - "@security.encoder_factory"
 
 
