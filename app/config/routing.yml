@@ -1,3 +1,7 @@
+dufa_user:
+    resource: "@DufaUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 dufa_web:
     resource: "@DufaWebBundle/Resources/config/routing.yml"
     prefix:   /

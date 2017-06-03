@@ -1,7 +1,0 @@
-dufa_user_resetting_reset:
-    path:     /{token}/reset
-    defaults: { _controller: DufaUserBundle:Resetting:reset, token: 0 }
-
-dufa_user_resetting_sendemail:
-    path:     /send-email
-    defaults: { _controller: DufaUserBundle:Resetting:sendEmail }

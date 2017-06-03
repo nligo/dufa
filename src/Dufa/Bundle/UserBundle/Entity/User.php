@@ -1,137 +1,131 @@
 <?php
 
-namespace Appcoachs\Bundle\UserBundle\Document;
+namespace Dufa\Bundle\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-
 /**
- * User Class.
+ * @author  coffey  <coffey@nligo.com>
+ * User
  *
- * @MongoDB\Document(
- *    repositoryClass="Appcoachs\Bundle\UserBundle\Document\Repository\UserRepository",
- *    collection="user"
- * )
- * @MongoDB\HasLifecycleCallbacks
+ * @ORM\Table(name="user")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass="Dufa\Bundle\UserBundle\Repository\UserRepository")
  */
 class User implements UserInterface
 {
     /**
-     * @MongoDB\Id(strategy="auto")
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     *@var string
-     * @MongoDB\Field(type="string",name="username")
-     */
-    private $username = '';
-
-    /**
-     * User nickname.
+     * @var string
      *
-     * @MongoDB\Field(type="string",name="nickname")
+     * @ORM\Column(name="username", type="string", length=50, nullable=false)
      */
-    private $nickname = '';
+    private $username;
 
     /**
      * @var string
-     * @MongoDB\Field(type="string",name="password")
+     *
+     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nickname", type="string", length=50, nullable=false)
+     */
+    private $nickname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=120, nullable=false)
      */
     private $password;
 
     /**
      * @var string
-     * @MongoDB\Field(type="string",name="salt")
+     *
+     * @ORM\Column(name="salt", type="string", length=120, nullable=false)
      */
     private $salt;
 
     /**
-     * @var string
-     * @MongoDB\Field(type="string",name="email")
-     */
-    private $email = '';
-
-    /**
-     * User roles.
+     * @var boolean
      *
-     * @MongoDB\Field(type="collection",name="roles")
+     * @ORM\Column(name="locked", type="boolean", nullable=false)
      */
-    private $roles = array();
+    private $locked = '0';
 
     /**
-     *@var string
-     * @MongoDB\Field(type="string",name="is_active")
-     */
-    private $isActive = 'no';
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string",name="is_locked")
-     */
-    private $isLocked = 'no';
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string",name="is_delete")
-     */
-    private $isDelete = 'no';
-
-    /**
-     * @var string
+     * @var boolean
      *
-     * @MongoDB\Field(type="string",name="confirm_token")
+     * @ORM\Column(name="enabled", type="boolean", nullable=false)
      */
-    private $confirmToken = '';
+    private $enabled = '0';
 
     /**
-     * @var int
+     * @var boolean
      *
-     * @MongoDB\Field(type="integer",name="token_valid_time")
+     * @ORM\Column(name="status", type="boolean", nullable=false)
      */
-    private $TokenValidTime = '';
+    private $status = '0';
 
     /**
-     * @var int
-     * @MongoDB\Field(type="integer",name="last_login")
-     */
-    private $lastLogin;
-
-    /**
-     * @var date
-     * @MongoDB\Field(type="date",name="create_at")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
-     * @var date
-     * @MongoDB\Field(type="date",name="updated_at")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 
     /**
-     * @MongoDB\ReferenceMany(
-     *      targetDocument="Appcoachs\Bundle\UserBundle\Document\Roles",
-     *      inversedBy="user",
-     *  )
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_login_time", type="datetime", nullable=true)
      */
-    private $userrole;
+    private $lastLoginTime;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\UserBundle\Document\UserProfile", inversedBy="user")
+     * @var string
+     *
+     * @ORM\Column(name="ip_adress", type="string", length=255, nullable=true)
+     */
+    private $ipAdress;
+
+    /**
+     * @ORM\Column(type="json_array",name="roles",options={"comment":"user_roles"})
+     */
+    private $roles = array();
+
+    /**
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user")
      */
     private $userProfile;
 
     public function __construct()
     {
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-        $this->userrole = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Pre Persist.
      *
-     * @MongoDB\PrePersist
+     * @ORM\PrePersist
      */
     public function prePersist()
     {
@@ -142,7 +136,7 @@ class User implements UserInterface
     }
 
     /**
-     * @MongoDB\PreUpdate
+     * @ORM\PreUpdate
      */
     public function PreUpdate()
     {
@@ -288,192 +282,85 @@ class User implements UserInterface
         return $this->email;
     }
 
+
     /**
-     * Set isActive.
+     * Set locked
      *
-     * @param string $isActive
+     * @param boolean $locked
      *
-     * @return $this
+     * @return User
      */
-    public function setIsActive($isActive)
+    public function setLocked($locked)
     {
-        $this->isActive = $isActive;
+        $this->locked = $locked;
 
         return $this;
     }
 
     /**
-     * Get isActive.
+     * Get locked
      *
-     * @return string $isActive
+     * @return boolean
      */
-    public function getIsActive()
+    public function getLocked()
     {
-        return $this->isActive;
+        return $this->locked;
     }
 
     /**
-     * Set isLocked.
+     * Set enabled
      *
-     * @param string $isLocked
+     * @param boolean $enabled
      *
-     * @return $this
+     * @return User
      */
-    public function setIsLocked($isLocked)
+    public function setEnabled($enabled)
     {
-        $this->isLocked = $isLocked;
+        $this->enabled = $enabled;
 
         return $this;
     }
 
     /**
-     * Get isLocked.
+     * Get enabled
      *
-     * @return string $isLocked
+     * @return boolean
      */
-    public function getIsLocked()
+    public function getEnabled()
     {
-        return $this->isLocked;
+        return $this->enabled;
     }
 
     /**
-     * Set confirmToken.
+     * Set status
      *
-     * @param string $confirmToken
+     * @param boolean $status
      *
-     * @return $this
+     * @return User
      */
-    public function setConfirmToken($confirmToken)
+    public function setStatus($status)
     {
-        $this->confirmToken = $confirmToken;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get confirmToken.
+     * Get status
      *
-     * @return string $confirmToken
+     * @return boolean
      */
-    public function getConfirmToken()
+    public function getStatus()
     {
-        return $this->confirmToken;
+        return $this->status;
     }
 
     /**
-     * Set tokenValidTime.
+     * Set createdAt
      *
-     * @param int $tokenValidTime
+     * @param \DateTime $createdAt
      *
-     * @return $this
-     */
-    public function setTokenValidTime($tokenValidTime)
-    {
-        $this->TokenValidTime = $tokenValidTime;
-
-        return $this;
-    }
-
-    /**
-     * Get tokenValidTime.
-     *
-     * @return int $tokenValidTime
-     */
-    public function getTokenValidTime()
-    {
-        return $this->TokenValidTime;
-    }
-
-    /**
-     * Set lastLogin.
-     *
-     * @param date $lastLogin
-     *
-     * @return $this
-     */
-    public function setLastLogin($lastLogin)
-    {
-        $this->lastLogin = $lastLogin;
-
-        return $this;
-    }
-
-    /**
-     * Get lastLogin.
-     *
-     * @return date $lastLogin
-     */
-    public function getLastLogin()
-    {
-        return $this->lastLogin;
-    }
-
-    /**
-     * Set isDelete.
-     *
-     * @param string $isDelete
-     *
-     * @return $this
-     */
-    public function setIsDelete($isDelete)
-    {
-        $this->isDelete = $isDelete;
-
-        return $this;
-    }
-
-    /**
-     * Get isDelete.
-     *
-     * @return string $isDelete
-     */
-    public function getIsDelete()
-    {
-        return $this->isDelete;
-    }
-
-    /**
-     * Add userrole.
-     *
-     * @param \Appcoachs\Bundle\UserBundle\Document\Roles $userrole
-     */
-    public function addUserrole(\Appcoachs\Bundle\UserBundle\Document\Roles $userrole)
-    {
-        $this->userrole[] = $userrole;
-    }
-
-    /**
-     * Remove userrole.
-     *
-     * @param \Appcoachs\Bundle\UserBundle\Document\Roles $userrole
-     */
-    public function removeUserrole(\Appcoachs\Bundle\UserBundle\Document\Roles $userrole)
-    {
-        $this->userrole->removeElement($userrole);
-    }
-
-    /**
-     * Get userrole.
-     *
-     * @return \Doctrine\Common\Collections\Collection $userrole
-     */
-    public function getUserrole()
-    {
-        return $this->userrole;
-    }
-
-
-    public function setUserrole(array $roles)
-    {
-        $this->userrole = $roles;
-    }
-
-    /**
-     * Set createdAt.
-     *
-     * @param date $createdAt
-     *
-     * @return $this
+     * @return User
      */
     public function setCreatedAt($createdAt)
     {
@@ -483,9 +370,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get createdAt.
+     * Get createdAt
      *
-     * @return date $createdAt
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -493,11 +380,11 @@ class User implements UserInterface
     }
 
     /**
-     * Set updatedAt.
+     * Set updatedAt
      *
-     * @param date $updatedAt
+     * @param \DateTime $updatedAt
      *
-     * @return $this
+     * @return User
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -507,9 +394,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get updatedAt.
+     * Get updatedAt
      *
-     * @return date $updatedAt
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -517,13 +404,61 @@ class User implements UserInterface
     }
 
     /**
-     * Set userProfile.
+     * Set lastLoginTime
      *
-     * @param \Appcoachs\Bundle\UserBundle\Document\UserProfile $userProfile
+     * @param \DateTime $lastLoginTime
      *
-     * @return $this
+     * @return User
      */
-    public function setUserProfile(\Appcoachs\Bundle\UserBundle\Document\UserProfile $userProfile)
+    public function setLastLoginTime($lastLoginTime)
+    {
+        $this->lastLoginTime = $lastLoginTime;
+
+        return $this;
+    }
+
+    /**
+     * Get lastLoginTime
+     *
+     * @return \DateTime
+     */
+    public function getLastLoginTime()
+    {
+        return $this->lastLoginTime;
+    }
+
+    /**
+     * Set ipAdress
+     *
+     * @param string $ipAdress
+     *
+     * @return User
+     */
+    public function setIpAdress($ipAdress)
+    {
+        $this->ipAdress = $ipAdress;
+
+        return $this;
+    }
+
+    /**
+     * Get ipAdress
+     *
+     * @return string
+     */
+    public function getIpAdress()
+    {
+        return $this->ipAdress;
+    }
+
+    /**
+     * Set userProfile
+     *
+     * @param \Dufa\Bundle\UserBundle\Entity\UserProfile $userProfile
+     *
+     * @return User
+     */
+    public function setUserProfile(\Dufa\Bundle\UserBundle\Entity\UserProfile $userProfile = null)
     {
         $this->userProfile = $userProfile;
 
@@ -531,9 +466,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get userProfile.
+     * Get userProfile
      *
-     * @return \Appcoachs\Bundle\UserBundle\Document\UserProfile $userProfile
+     * @return \Dufa\Bundle\UserBundle\Entity\UserProfile
      */
     public function getUserProfile()
     {

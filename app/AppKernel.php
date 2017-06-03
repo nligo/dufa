@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Dufa\Bundle\ApiBundle\DufaApiBundle(),
             new Dufa\Bundle\CoreBundle\DufaCoreBundle(),
             new Dufa\Bundle\WebBundle\DufaWebBundle(),
+            new Dufa\Bundle\UserBundle\DufaUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

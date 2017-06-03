@@ -1,104 +1,112 @@
 <?php
 
-namespace Appcoachs\Bundle\UserBundle\Document;
+namespace Dufa\Bundle\UserBundle\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Symfony\Component\Intl\Intl;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserProfile Class.
+ * UserProfile
  *
- * @MongoDB\Document(
- *    repositoryClass="Appcoachs\Bundle\UserBundle\Document\Repository\UserProfileRepository",
- *    collection="user_profile"
- * )
- * @MongoDB\HasLifecycleCallbacks
+ * @ORM\Table(name="user_profile", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass="Dufa\Bundle\UserBundle\Repository\UserProfileRepository")
  */
 class UserProfile
 {
     /**
-     * @MongoDB\Id(strategy="auto")
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\UserBundle\Document\User", inversedBy="userProfile")
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=50, nullable=false)
      */
-    protected $user;
+    private $country = '';
 
     /**
-     * UserProfile country.
+     * @var string
      *
-     * @MongoDB\Field(type="string",name="country")
-     */
-    private $country;
-
-    /**
-     * UserProfile language.
-     *
-     * @MongoDB\Field(type="string",name="language")
+     * @ORM\Column(name="language", type="string", length=50, nullable=false)
      */
     private $language;
 
     /**
-     * @var date
-     * @MongoDB\Field(type="date",name="create_at")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="date", nullable=true)
      */
     private $createdAt;
 
     /**
-     * @var date
-     * @MongoDB\Field(type="date",name="update_at")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="date", nullable=true)
      */
     private $updatedAt;
 
+    /**
+     * @var \User
+     *
+     * @ORM\OneToOne(targetEntity="User", inversedBy="userProfile")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * Pre Persist.
+     *
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTime();
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function PreUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * Set user.
+     * Set country
      *
-     * @param \Appcoachs\Bundle\UserBundle\Document\User $user
+     * @param string $country
      *
-     * @return $this
-     */
-    public function setUser(\Appcoachs\Bundle\UserBundle\Document\User $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user.
-     *
-     * @return \Appcoachs\Bundle\UserBundle\Document\User $user
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set country.
-     *
-     * @param  $country
-     *
-     * @return $this
+     * @return UserProfile
      */
     public function setCountry($country)
     {
-        $this->country = Intl::getRegionBundle()->getCountryName($country);
+        $this->country = $country;
 
         return $this;
     }
 
     /**
-     * Get country.
+     * Get country
      *
-     * @return $country
+     * @return string
      */
     public function getCountry()
     {
@@ -106,23 +114,23 @@ class UserProfile
     }
 
     /**
-     * Set language.
+     * Set language
      *
-     * @param  $language
+     * @param string $language
      *
-     * @return $this
+     * @return UserProfile
      */
     public function setLanguage($language)
     {
-        $this->language = Intl::getLanguageBundle()->getLanguageName($language);
+        $this->language = $language;
 
         return $this;
     }
 
     /**
-     * Get language.
+     * Get language
      *
-     * @return $language
+     * @return string
      */
     public function getLanguage()
     {
@@ -130,11 +138,11 @@ class UserProfile
     }
 
     /**
-     * Set createdAt.
+     * Set createdAt
      *
-     * @param date $createdAt
+     * @param \DateTime $createdAt
      *
-     * @return $this
+     * @return UserProfile
      */
     public function setCreatedAt($createdAt)
     {
@@ -144,9 +152,9 @@ class UserProfile
     }
 
     /**
-     * Get createdAt.
+     * Get createdAt
      *
-     * @return date $createdAt
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -154,11 +162,11 @@ class UserProfile
     }
 
     /**
-     * Set updatedAt.
+     * Set updatedAt
      *
-     * @param date $updatedAt
+     * @param \DateTime $updatedAt
      *
-     * @return $this
+     * @return UserProfile
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -168,12 +176,36 @@ class UserProfile
     }
 
     /**
-     * Get updatedAt.
+     * Get updatedAt
      *
-     * @return date $updatedAt
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Dufa\Bundle\UserBundle\Entity\User $user
+     *
+     * @return UserProfile
+     */
+    public function setUser(\Dufa\Bundle\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Dufa\Bundle\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

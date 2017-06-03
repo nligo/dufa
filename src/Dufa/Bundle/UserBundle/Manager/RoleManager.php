@@ -1,20 +1,20 @@
 <?php
 
-namespace Appcoachs\Bundle\UserBundle\Manager;
+namespace Dufa\Bundle\UserBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
-class ModulesManager
+class RoleManager
 {
-    protected $dm;
+    protected $em;
     protected $repo;
     protected $class;
 
-    public function __construct(DocumentManager $dm, $class)
+    public function __construct(EntityManager $em, $class)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->class = $class;
-        $this->repo = $dm->getRepository($class);
+        $this->repo = $em->getRepository($class);
     }
 
     public function get($id)
@@ -35,8 +35,8 @@ class ModulesManager
             $setMethod = 'set'.ucfirst($k);
             $obj->$setMethod($v);
         }
-        $this->dm->persist($obj);
-        $this->dm->flush();
+        $this->em->persist($obj);
+        $this->em->flush();
 
         return $obj;
     }
@@ -48,8 +48,8 @@ class ModulesManager
             $setMethod = 'set'.ucfirst($k);
             $obj->$setMethod($v);
         }
-        $this->dm->persist($obj);
-        $this->dm->flush();
+        $this->em->persist($obj);
+        $this->em->flush();
 
         return $obj;
     }

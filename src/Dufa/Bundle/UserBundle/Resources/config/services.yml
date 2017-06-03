@@ -1,3 +1,4 @@
 services:
-    dufa_user_service.datadetection:
-        class: Dufa\Bundle\UserBundle\Services\DataDetection
+#    dufa_user.example:
+#        class: Dufa\Bundle\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

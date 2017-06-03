@@ -1,8 +1,8 @@
 <?php
 
-namespace Appcoachs\Bundle\UserBundle\Manager;
+namespace Dufa\Bundle\UserBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @author  coffey
@@ -12,17 +12,17 @@ use Doctrine\ODM\MongoDB\DocumentManager;
  */
 class UserProfileManager
 {
-    protected $dm;
-    protected $repo;
-    protected $class;
-    protected $container;
+    protected $em;
 
-    public function __construct(DocumentManager $dm, $class, $container)
+    protected $repo;
+
+    protected $class;
+
+    public function __construct(EntityManager $em, $class)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->class = $class;
-        $this->repo = $dm->getRepository($class);
-        $this->container = $container;
+        $this->repo = $em->getRepository($class);
     }
 
     public function get($id)
@@ -43,7 +43,7 @@ class UserProfileManager
             $setMethod = 'set'.ucfirst($k);
             if($setMethod == "setUserId")
             {
-                $userInfo = $this->dm->getRepository('AppcoachsUserBundle:User')->find($v);
+                $userInfo = $this->em->getRepository('DufaUserBundle:User')->find($v);
                 $obj->setUserId($userInfo);
             }
             else
@@ -52,8 +52,8 @@ class UserProfileManager
             }
 
         }
-        $this->dm->persist($obj);
-        $this->dm->flush();
+        $this->em->persist($obj);
+        $this->em->flush();
 
         return $obj;
     }
@@ -65,8 +65,8 @@ class UserProfileManager
             $setMethod = 'set'.ucfirst($k);
             $obj->$setMethod($v);
         }
-        $this->dm->persist($obj);
-        $this->dm->flush();
+        $this->em->persist($obj);
+        $this->em->flush();
 
         return $obj;
     }
