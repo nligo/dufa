@@ -1,3 +1,23 @@
-dufa_api_homepage:
-    path:     /
-    defaults: { _controller: DufaApiBundle:Default:index }
+dufa_api_news:
+    resource: "@DufaApiBundle/Resources/config/routing/news.yml"
+    prefix:   /news
+
+dufa_api_statistical:
+    resource: "@DufaApiBundle/Resources/config/routing/statistical.yml"
+    prefix:   /statistical
+
+dufa_api_dictionay:
+    resource: "@DufaApiBundle/Resources/config/routing/dictionay.yml"
+    prefix:   /dictionay
+
+dufa_api_register:
+    resource: "@DufaApiBundle/Resources/config/routing/register.yml"
+    prefix:   /user/register
+
+dufa_api_login:
+    path:     /login
+    defaults: { _controller: DufaApiBundle:V1/Security:login }
+
+dufa_api_logout:
+    path:     /logout
+    defaults: { _controller: DufaApiBundle:V1/Security:logout }

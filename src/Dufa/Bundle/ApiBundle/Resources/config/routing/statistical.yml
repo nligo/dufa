@@ -1,0 +1,3 @@
+api_statistical_list:
+    path:     /list
+    defaults: { _controller: DufaApiBundle:V1/Statistical:crunchies }

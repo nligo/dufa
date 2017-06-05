@@ -1,0 +1,7 @@
+api_news_list:
+    path:     /list
+    defaults: { _controller: DufaApiBundle:V1/News:list }
+
+api_news_details:
+    path:     /{id}/details
+    defaults: { _controller: DufaApiBundle:V1/News:details, id: 0 }

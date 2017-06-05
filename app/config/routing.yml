@@ -12,7 +12,7 @@ dufa_core:
 
 dufa_api:
     resource: "@DufaApiBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /api/v1
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
