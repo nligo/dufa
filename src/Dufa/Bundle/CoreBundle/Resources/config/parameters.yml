@@ -1,6 +1,11 @@
 parameters:
-  user_operate_record_type:
-      comment:  comment
-      error:  error
-      inform: inform
+    user_operate_record_type:
+        comment:  comment
+        error:  error
+        inform: inform
+    comment_type:
+        default: default
+        dictionay: dictionay
+        creative: creative
+        answer: answer
 

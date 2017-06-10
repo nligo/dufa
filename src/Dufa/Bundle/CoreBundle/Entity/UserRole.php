@@ -32,8 +32,6 @@ class UserRole extends Base
      */
     private $role;
 
-
-
     /**
      * Set user
      *

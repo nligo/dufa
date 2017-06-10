@@ -25,7 +25,7 @@ class Orders extends Base
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="Goods")
+     * @ORM\ManyToOne(targetEntity="Goods")
      * @ORM\JoinColumn(name="goods_id", referencedColumnName="id")
      */
     private $goodsId;

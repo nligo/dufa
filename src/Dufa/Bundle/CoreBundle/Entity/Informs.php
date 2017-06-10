@@ -5,12 +5,12 @@ namespace Dufa\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Comments
+ * Informs
  *
- * @ORM\Table(name="comments")
- * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\Comments")
+ * @ORM\Table(name="informs")
+ * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\Informs")
  */
-class Comments extends Base
+class Informs extends Base
 {
     /**
      * @var string
@@ -61,7 +61,7 @@ class Comments extends Base
      *
      * @param string $contents
      *
-     * @return Comments
+     * @return Informs
      */
     public function setContents($contents)
     {
@@ -85,7 +85,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\User $user
      *
-     * @return Comments
+     * @return Informs
      */
     public function setUser(\Dufa\Bundle\CoreBundle\Entity\User $user = null)
     {
@@ -109,7 +109,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\Dictionay $dId
      *
-     * @return Comments
+     * @return Informs
      */
     public function setDId(\Dufa\Bundle\CoreBundle\Entity\Dictionay $dId = null)
     {
@@ -133,7 +133,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\AskQuestions $aqId
      *
-     * @return Comments
+     * @return Informs
      */
     public function setAqId(\Dufa\Bundle\CoreBundle\Entity\AskQuestions $aqId = null)
     {
@@ -157,7 +157,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\AskQuestionsAnswer $aqaId
      *
-     * @return Comments
+     * @return Informs
      */
     public function setAqaId(\Dufa\Bundle\CoreBundle\Entity\AskQuestionsAnswer $aqaId = null)
     {
@@ -181,7 +181,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\Creatives $creativeId
      *
-     * @return Comments
+     * @return Informs
      */
     public function setCreativeId(\Dufa\Bundle\CoreBundle\Entity\Creatives $creativeId = null)
     {
@@ -205,7 +205,7 @@ class Comments extends Base
      *
      * @param string $type
      *
-     * @return Comments
+     * @return Informs
      */
     public function setType($type)
     {

@@ -6,3 +6,26 @@ services:
               - Dufa\Bundle\CoreBundle\Entity\User
               - "@security.encoder_factory"
 
+      dufa_core_manager.ask_questions:
+          class: Dufa\Bundle\CoreBundle\Manager\AskQuestions
+          arguments:
+              - "@doctrine.orm.entity_manager"
+              - Dufa\Bundle\CoreBundle\Entity\AskQuestions
+
+      dufa_core_manager.goods:
+          class: Dufa\Bundle\CoreBundle\Manager\Goods
+          arguments:
+              - "@doctrine.orm.entity_manager"
+              - Dufa\Bundle\CoreBundle\Entity\Goods
+
+      dufa_core_manager.useraddress:
+          class: Dufa\Bundle\CoreBundle\Manager\UserAddress
+          arguments:
+              - "@doctrine.orm.entity_manager"
+              - Dufa\Bundle\CoreBundle\Entity\UserAddress
+
+      dufa_core_manager.orders:
+          class: Dufa\Bundle\CoreBundle\Manager\Orders
+          arguments:
+              - "@doctrine.orm.entity_manager"
+              - Dufa\Bundle\CoreBundle\Entity\Orders

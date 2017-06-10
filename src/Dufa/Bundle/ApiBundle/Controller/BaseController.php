@@ -37,4 +37,18 @@ class BaseController extends Controller
     {
         return $this->getDoctrine()->getManager();
     }
+
+    public function checkUserToken()
+    {
+        $userToken = isset($_POST['userToken']) ? $_POST['userToken'] : "";
+        if (empty($userToken)) {
+            $result = [
+                "code" => -2,
+                "msg" => 'token error.',
+            ];
+            return json_encode($result);
+        }
+        $user = $this->get('session')->get($userToken)->getUser();
+        return $user;
+    }
 }

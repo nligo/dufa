@@ -22,6 +22,26 @@ dufa_api_useraddress:
     resource: "@DufaApiBundle/Resources/config/routing/user_address.yml"
     prefix:   /user/address
 
+dufa_api_ask_questions:
+    resource: "@DufaApiBundle/Resources/config/routing/ask_questions.yml"
+    prefix:   /ask/questions
+
+dufa_api_ask_questions_answer:
+    resource: "@DufaApiBundle/Resources/config/routing/ask_questions_answer.yml"
+    prefix:   /ask/questions
+
+dufa_api_user_operate:
+    resource: "@DufaApiBundle/Resources/config/routing/user_operate.yml"
+    prefix:   /user/operate
+
+dufa_api_goods:
+    resource: "@DufaApiBundle/Resources/config/routing/goods.yml"
+    prefix:   /shopping/goods
+
+dufa_api_orders:
+    resource: "@DufaApiBundle/Resources/config/routing/orders.yml"
+    prefix:   /shopping/orders
+
 dufa_api_login:
     path:     /login
     defaults: { _controller: DufaApiBundle:V1/Security:login }

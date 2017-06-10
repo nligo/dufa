@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AskQuestionsAnswer
  *
- * @ORM\Table(name="ask_questions_ answer")
+ * @ORM\Table(name="ask_questions_answer")
  * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\AskQuestionsAnswer")
  */
-class AskQuestionsAnswer
+class AskQuestionsAnswer extends Base
 {
     /**
      * @ORM\ManyToOne(targetEntity="AskQuestions")
@@ -44,7 +44,6 @@ class AskQuestionsAnswer
      * @ORM\Column(name="general", type="boolean", nullable=false)
      */
     private $general = false;
-
 
     /**
      * Set answer

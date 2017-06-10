@@ -1,0 +1,14 @@
+api_orders_list:
+    path:     /list
+    defaults: { _controller: DufaApiBundle:V1/Orders:list }
+    methods: get
+
+api_orders_details:
+    path:     /{id}/details
+    defaults: { _controller: DufaApiBundle:V1/Orders:details,id: 0 }
+    methods: get
+
+api_orders_createorder:
+    path:     /{goodsId}/{addressId}/create
+    defaults: { _controller: DufaApiBundle:V1/Orders:createOrder,goodsId: 0,addressId: 0 }
+    methods: post

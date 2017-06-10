@@ -83,7 +83,10 @@ class User extends Base implements UserInterface
 
     public function __construct()
     {
-        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        if(empty($this->salt))
+        {
+            $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        }
     }
 
     /**

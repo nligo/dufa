@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserProfile
  *
- * @ORM\Table(name="user_profile", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_D95AB405A76ED395", columns={"user_id"})})
+ * @ORM\Table(name="user_profile")
  * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\UserProfile")
  */
 class UserProfile extends Base

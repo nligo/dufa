@@ -9,3 +9,24 @@ services:
       class: Dufa\Bundle\CoreBundle\Event\Listener\EntityDateSubscriber
       tags:
         - { name: doctrine.orm.event_subscriber, connection: default }
+
+    dufa_core_service.comment:
+        class: Dufa\Bundle\CoreBundle\Service\Comment
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%comment_type%"
+            - "@logger"
+
+    dufa_core_service.inform:
+        class: Dufa\Bundle\CoreBundle\Service\Inform
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%comment_type%"
+            - "@logger"
+
+    dufa_core_service.reward:
+        class: Dufa\Bundle\CoreBundle\Service\Reward
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%comment_type%"
+            - "@logger"

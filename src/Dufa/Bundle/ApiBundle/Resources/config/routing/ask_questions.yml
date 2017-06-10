@@ -1,0 +1,19 @@
+api_ask_questions_list:
+    path:     /list
+    defaults: { _controller: DufaApiBundle:V1/AskQuestions:list }
+    methods: get
+
+api_ask_questions_add:
+    path:     /add
+    defaults: { _controller: DufaApiBundle:V1/AskQuestions:add }
+    methods: post
+
+api_ask_questions_edit:
+    path:     /{id}/edit
+    defaults: { _controller: DufaApiBundle:V1/AskQuestions:edit }
+    methods: post
+
+api_ask_questions_details:
+    path:     /{id}/details
+    defaults: { _controller: DufaApiBundle:V1/AskQuestions:details }
+    methods: get

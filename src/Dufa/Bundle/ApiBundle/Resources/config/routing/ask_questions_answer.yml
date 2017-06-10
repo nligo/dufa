@@ -1,0 +1,9 @@
+api_ask_questions_answer_answer:
+    path:     /{aqId}/answer
+    defaults: { _controller: DufaApiBundle:V1/AskQuestionsAnswer:answer,aqId: 0 }
+    methods: post
+
+api_ask_questions_answer_comment:
+    path:     /answer/{aqaId}/comment
+    defaults: { _controller: DufaApiBundle:V1/AskQuestionsAnswer:comment,aqaId: 0 }
+    methods: post

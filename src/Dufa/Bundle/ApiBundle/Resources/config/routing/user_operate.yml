@@ -1,0 +1,19 @@
+api_user_operate_gettype:
+    path:     /get-type
+    defaults: { _controller: DufaApiBundle:V1/UserOperate:getCommentType }
+    methods: get
+
+api_user_operate_comment:
+    path:     /comment
+    defaults: { _controller: DufaApiBundle:V1/UserOperate:comment }
+    methods: post
+
+api_user_operate_inform:
+    path:     /inform
+    defaults: { _controller: DufaApiBundle:V1/UserOperate:inform }
+    methods: post
+
+api_user_operate_reward:
+    path:     /reward
+    defaults: { _controller: DufaApiBundle:V1/UserOperate:reward }
+    methods: post

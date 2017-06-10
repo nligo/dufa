@@ -5,12 +5,12 @@ namespace Dufa\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Comments
+ * Reward
  *
- * @ORM\Table(name="comments")
- * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\Comments")
+ * @ORM\Table(name="rewards")
+ * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\Reward")
  */
-class Comments extends Base
+class Rewards extends Base
 {
     /**
      * @var string
@@ -57,11 +57,18 @@ class Comments extends Base
     private $type = "default";
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="money", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $money = 0.00;
+
+    /**
      * Set contents
      *
      * @param string $contents
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setContents($contents)
     {
@@ -85,7 +92,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\User $user
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setUser(\Dufa\Bundle\CoreBundle\Entity\User $user = null)
     {
@@ -109,7 +116,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\Dictionay $dId
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setDId(\Dufa\Bundle\CoreBundle\Entity\Dictionay $dId = null)
     {
@@ -133,7 +140,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\AskQuestions $aqId
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setAqId(\Dufa\Bundle\CoreBundle\Entity\AskQuestions $aqId = null)
     {
@@ -157,7 +164,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\AskQuestionsAnswer $aqaId
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setAqaId(\Dufa\Bundle\CoreBundle\Entity\AskQuestionsAnswer $aqaId = null)
     {
@@ -181,7 +188,7 @@ class Comments extends Base
      *
      * @param \Dufa\Bundle\CoreBundle\Entity\Creatives $creativeId
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setCreativeId(\Dufa\Bundle\CoreBundle\Entity\Creatives $creativeId = null)
     {
@@ -205,7 +212,7 @@ class Comments extends Base
      *
      * @param string $type
      *
-     * @return Comments
+     * @return Rewards
      */
     public function setType($type)
     {
@@ -222,5 +229,29 @@ class Comments extends Base
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set money
+     *
+     * @param string $money
+     *
+     * @return UserAccountRecord
+     */
+    public function setMoney($money)
+    {
+        $this->money = $money;
+
+        return $this;
+    }
+
+    /**
+     * Get money
+     *
+     * @return string
+     */
+    public function getMoney()
+    {
+        return $this->money;
     }
 }
