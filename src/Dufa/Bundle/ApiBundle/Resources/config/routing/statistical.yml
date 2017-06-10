@@ -1,3 +1,9 @@
-api_statistical_list:
-    path:     /list
+api_statistical_crunchies:
+    path:     /crunchies
     defaults: { _controller: DufaApiBundle:V1/Statistical:crunchies }
+    methods: get
+
+api_statistical_exceptional:
+    path:     /exceptional
+    defaults: { _controller: DufaApiBundle:V1/Statistical:exceptional }
+    methods: get

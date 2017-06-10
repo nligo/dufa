@@ -1,0 +1,8 @@
+services:
+      dufa_core_manager.user:
+          class: Dufa\Bundle\CoreBundle\Manager\User
+          arguments:
+              - "@doctrine.orm.entity_manager"
+              - Dufa\Bundle\CoreBundle\Entity\User
+              - "@security.encoder_factory"
+

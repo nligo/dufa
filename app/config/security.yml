@@ -1,18 +1,33 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/security.html
 security:
-
+    encoders:
+        Dufa\Bundle\CoreBundle\Entity\User: sha512
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         in_memory:
             memory: ~
-
+        users:
+            entity: { class: Dufa\Bundle\CoreBundle\Entity\User }
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        dufa_user_api_login:
+            anonymous: ~
+            methods: POST
+            form_login:
+                provider: users
+                login_path: dufa_api_login
+                check_path: dufa_api_login
+                username_parameter: user_email
+                password_parameter: user_password
+
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
         main:
             anonymous: ~
             # activate different ways to authenticate

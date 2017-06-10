@@ -2,3 +2,10 @@ services:
 #    dufa_core.example:
 #        class: Dufa\Bundle\CoreBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+    dufa_core_sms:
+        class: Dufa\Bundle\CoreBundle\Service\Sms
+
+    dufa.event_subscriber.entity_date:
+      class: Dufa\Bundle\CoreBundle\Event\Listener\EntityDateSubscriber
+      tags:
+        - { name: doctrine.orm.event_subscriber, connection: default }

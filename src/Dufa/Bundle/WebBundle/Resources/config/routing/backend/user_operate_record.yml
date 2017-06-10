@@ -1,0 +1,3 @@
+backend_useroperaterecord_list:
+    path:     /
+    defaults: { _controller: DufaWebBundle:Backend\UserOperateRecord:list }

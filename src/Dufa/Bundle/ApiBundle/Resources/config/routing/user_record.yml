@@ -1,0 +1,24 @@
+api_user_record_trading:
+    path:     /trading
+    defaults: { _controller: DufaApiBundle:V1/UserRecord:trading }
+    methods: get
+
+api_user_record_reward:
+    path:     /reward
+    defaults: { _controller: DufaApiBundle:V1/UserRecord:reward }
+    methods: get
+
+api_user_record_comment:
+    path:     /comment
+    defaults: { _controller: DufaApiBundle:V1/UserRecord:comment }
+    methods: get
+
+api_user_record_error_correction:
+    path:     /error-correction
+    defaults: { _controller: DufaApiBundle:V1/UserRecord:errorCorrection }
+    methods: get
+
+api_user_record_inform:
+    path:     /inform
+    defaults: { _controller: DufaApiBundle:V1/UserRecord:inform }
+    methods: get

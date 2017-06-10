@@ -8,7 +8,6 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        dump($this->get('dufa_user_manager.user')->getRepository()->findAll());exit;
         return $this->render('DufaWebBundle:Backend:layout.html.twig', array(
         ));
     }

@@ -1,7 +1,34 @@
 api_dictionay_list:
     path:     /list
     defaults: { _controller: DufaApiBundle:V1/Dictionay:list }
+    methods: post
+
+api_dictionay_add:
+    path:     /new
+    defaults: { _controller: DufaApiBundle:V1/Dictionay:new }
+    methods: post
+
+api_dictionay_edit:
+    path:     /{id}/edit
+    defaults: { _controller: DufaApiBundle:V1/Dictionay:edit,id: 0 }
+    methods: post
 
 api_dictionay_details:
     path:     /{id}/details
     defaults: { _controller: DufaApiBundle:V1/Dictionay:details, id: 0 }
+    methods: get
+
+api_dictionay_authorinfo:
+    path:     /{id}/author-info
+    defaults: { _controller: DufaApiBundle:V1/Dictionay:authorInfo, id: 0 }
+    methods: get
+
+api_dictionay_search:
+    path:     /search
+    defaults: { _controller: DufaApiBundle:V1/Dictionay:search }
+    methods: get
+
+api_dictionay_hotsearch:
+    path:     /hot-search
+    defaults: { _controller: DufaApiBundle:V1/Dictionay:hotSearch }
+    methods: get

@@ -1,0 +1,6 @@
+parameters:
+  user_operate_record_type:
+      comment:  comment
+      error:  error
+      inform: inform
+

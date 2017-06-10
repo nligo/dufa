@@ -27,4 +27,24 @@ class StatisticalController extends BaseController
         $result = [];
         return $this->JsonResponse();
     }
+
+    /**
+     * @ApiDoc(
+     *     description="打赏榜单",
+     *     statusCodes={
+     *         200 = "success.",
+     *         412 = "parameters error.",
+     *         420 = "System error.",
+     *     },
+     *     views={"all","statistical","dictionay"},
+     *     tags={
+     *         "定义待填写逻辑" = "red",
+     *     }
+     *  )
+     */
+    public function exceptionalAction(Request $request)
+    {
+        $result = [];
+        return $this->JsonResponse();
+    }
 }

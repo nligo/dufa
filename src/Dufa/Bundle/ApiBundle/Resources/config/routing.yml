@@ -14,6 +14,14 @@ dufa_api_register:
     resource: "@DufaApiBundle/Resources/config/routing/register.yml"
     prefix:   /user/register
 
+dufa_api_userrecord:
+    resource: "@DufaApiBundle/Resources/config/routing/user_record.yml"
+    prefix:   /user/record
+
+dufa_api_useraddress:
+    resource: "@DufaApiBundle/Resources/config/routing/user_address.yml"
+    prefix:   /user/address
+
 dufa_api_login:
     path:     /login
     defaults: { _controller: DufaApiBundle:V1/Security:login }
@@ -21,3 +29,16 @@ dufa_api_login:
 dufa_api_logout:
     path:     /logout
     defaults: { _controller: DufaApiBundle:V1/Security:logout }
+
+dufa_api_getuser:
+    path:     /getuser
+    defaults: { _controller: DufaApiBundle:V1/Security:getUser }
+
+dufa_api_sendcode:
+    path:     /sendcode
+    defaults: { _controller: DufaApiBundle:V1/Security:sendcode }
+
+dufa_api_reset:
+    path:     /reset-password
+    defaults: { _controller: DufaApiBundle:V1/Resetting:reset }
+    methods: post

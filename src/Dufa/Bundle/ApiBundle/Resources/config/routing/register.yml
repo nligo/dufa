@@ -1,11 +1,14 @@
 api_news_userreg:
     path:     /user-reg
     defaults: { _controller: DufaApiBundle:V1/Register:userReg }
+    methods: post
 
 api_news_companyreg:
     path:     /company-reg
     defaults: { _controller: DufaApiBundle:V1/Register:companyReg }
+    methods: post
 
 api_news_companyapprove:
     path:     /{id}/company-approve
     defaults: { _controller: DufaApiBundle:V1/Register:companyApprove,id: 0 }
+    methods: post

@@ -5,3 +5,7 @@ backend_index_index:
 backend_index_welcome:
     path:     /welcome
     defaults: { _controller: DufaWebBundle:Backend\Index:welcome }
+
+web_backend_useroperaterecord:
+    resource: "@DufaWebBundle/Resources/config/routing/backend/user_operate_record.yml"
+    prefix:   /user/operate-record
