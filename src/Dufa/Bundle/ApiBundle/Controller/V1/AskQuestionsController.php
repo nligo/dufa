@@ -20,17 +20,22 @@ class AskQuestionsController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","questions"},
+     *     views={"all","questions","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *  },
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *         "完成" = "green",
      *     }
      *  )
      */
     public function listAction(Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return new Response($checkUser);
+        }
         $list = $this->em()->getRepository("DufaCoreBundle:AskQuestions")->findBy(['status' => Base::STATUS_ACTIVE],['createdAt' => "DESC"]);
         return $this->JsonResponse($list);
     }
@@ -43,7 +48,7 @@ class AskQuestionsController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","questions"},
+     *     views={"all","questions","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *      {"name"="title", "dataType"="string", "required"=true, "description"="标题"},
@@ -58,6 +63,11 @@ class AskQuestionsController extends BaseController
      */
     public function addAction(Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return new Response($checkUser);
+        }
         $param['title'] = $request->request->get("title",'');
         $param['contents'] = $request->request->get("contents",'');
         $param['rewards'] = $request->request->get("rewards",0.00);
@@ -79,7 +89,7 @@ class AskQuestionsController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","questions"},
+     *     views={"all","questions","master"},
      *  requirements={
      *      {
      *          "name"="id",
@@ -102,10 +112,10 @@ class AskQuestionsController extends BaseController
      */
     public function editAction($id,Request $request)
     {
-        $user = $this->checkUserToken();
-        if(is_string($user))
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
         {
-            return new Response($user);
+            return new Response($checkUser);
         }
         $param['title'] = $request->request->get("title",'');
         $param['contents'] = $request->request->get("contents",'');
@@ -132,7 +142,10 @@ class AskQuestionsController extends BaseController
      *          "description"="问题Id"
      *      }
      *  },
-     *     views={"all","questions"},
+     *     parameters={
+     *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
+     *  },
+     *     views={"all","questions","master"},
      *     tags={
      *         "完成" = "green",
      *     }
@@ -140,6 +153,11 @@ class AskQuestionsController extends BaseController
      */
     public function detailsAction($id,Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return new Response($checkUser);
+        }
         $obj = $this->get("dufa_core_manager.ask_questions")->getRepository()->find($id);
         $answer = $this->getDoctrine()->getRepository("DufaCoreBundle:AskQuestionsAnswer")->findBy(['aqId' => $obj->getId(),'status' => Base::STATUS_ACTIVE]);
         $data = [

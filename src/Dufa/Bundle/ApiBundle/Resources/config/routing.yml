@@ -42,6 +42,10 @@ dufa_api_orders:
     resource: "@DufaApiBundle/Resources/config/routing/orders.yml"
     prefix:   /shopping/orders
 
+dufa_api_experts:
+    resource: "@DufaApiBundle/Resources/config/routing/experts.yml"
+    prefix:   /experts
+
 dufa_api_login:
     path:     /login
     defaults: { _controller: DufaApiBundle:V1/Security:login }
@@ -49,14 +53,17 @@ dufa_api_login:
 dufa_api_logout:
     path:     /logout
     defaults: { _controller: DufaApiBundle:V1/Security:logout }
+    methods: get
 
 dufa_api_getuser:
     path:     /getuser
     defaults: { _controller: DufaApiBundle:V1/Security:getUser }
+    methods: post
 
 dufa_api_sendcode:
     path:     /sendcode
     defaults: { _controller: DufaApiBundle:V1/Security:sendcode }
+    methods: post
 
 dufa_api_reset:
     path:     /reset-password

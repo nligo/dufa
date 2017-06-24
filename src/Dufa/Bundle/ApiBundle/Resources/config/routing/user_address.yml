@@ -1,7 +1,7 @@
 api_user_address_list:
     path:     /list
     defaults: { _controller: DufaApiBundle:V1/UserAddress:list }
-    methods: get
+    methods: post
 
 api_user_address_new:
     path:     /new
@@ -16,4 +16,4 @@ api_user_address_edit:
 api_user_address_delete:
     path:     /{id}/delete
     defaults: { _controller: DufaApiBundle:V1/UserAddress:delete, id: 0 }
-    methods: get
+    methods: post

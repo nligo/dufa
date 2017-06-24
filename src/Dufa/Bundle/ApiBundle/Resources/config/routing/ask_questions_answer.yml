@@ -7,3 +7,8 @@ api_ask_questions_answer_comment:
     path:     /answer/{aqaId}/comment
     defaults: { _controller: DufaApiBundle:V1/AskQuestionsAnswer:comment,aqaId: 0 }
     methods: post
+
+api_ask_questions_answer_change_status:
+    path:     /{id}/change-status
+    defaults: { _controller: DufaApiBundle:V1/AskQuestionsAnswer:changeStatus,id: 0 }
+    methods: post

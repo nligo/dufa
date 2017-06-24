@@ -1,9 +1,9 @@
 api_goods_list:
     path:     /list
     defaults: { _controller: DufaApiBundle:V1/Goods:list }
-    methods: get
+    methods: post
 
 api_goods_details:
     path:     /{id}/details
     defaults: { _controller: DufaApiBundle:V1/Goods:details,id: 0 }
-    methods: get
+    methods: post

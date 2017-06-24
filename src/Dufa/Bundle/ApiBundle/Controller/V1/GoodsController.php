@@ -17,7 +17,7 @@ class GoodsController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","goods","shopping"},
+     *     views={"all","goods","shopping","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *      {"name"="start", "dataType"="integer", "required"=true, "description"="start"},
@@ -30,6 +30,11 @@ class GoodsController extends BaseController
      */
     public function listAction(Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $condition = [];
         $start = $request->request->getInt("start",0);
         $limit = $request->request->getInt("limit",100);
@@ -53,7 +58,7 @@ class GoodsController extends BaseController
      *          "description"="商品Id"
      *      }
      *  },
-     *     views={"all","goods","shopping"},
+     *     views={"all","goods","shopping","master"},
      *     tags={
      *         "完成" = "green",
      *     }
@@ -61,6 +66,11 @@ class GoodsController extends BaseController
      */
     public function detailsAction($id,Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $info = $this->get('dufa_core_manager.goods')->getRepository()->find($id);
         return $this->JsonResponse($info);
     }

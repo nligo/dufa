@@ -1,4 +1,8 @@
 parameters:
+    user_role:
+        user:  ROLE_USER
+        company: ROLE_COMPANY
+
     user_operate_record_type:
         comment:  comment
         error:  error

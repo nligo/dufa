@@ -17,7 +17,7 @@ class UserAddressController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","user-center","user","goods","shopping"},
+     *     views={"all","user-center","user","goods","shopping","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *  },
@@ -28,6 +28,11 @@ class UserAddressController extends BaseController
      */
     public function listAction(Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $user = $this->getUser();
         $userId = $user->getId();
         $list = $this->get("dufa_core_manager.useraddress")->getRepository()->findBy(['user' => $userId,'status' => Base::STATUS_ACTIVE],['createdAt' => 'desc']);
@@ -42,7 +47,7 @@ class UserAddressController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","user-center","user","goods","shopping"},
+     *     views={"all","user-center","user","goods","shopping","master"},
      *     parameters={
      *      {"name"="username", "dataType"="string", "required"=true, "description"="联系人"},
      *      {"name"="phone", "dataType"="string", "required"=true, "description"="电话"},
@@ -56,6 +61,11 @@ class UserAddressController extends BaseController
      */
     public function newAction(Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $param['username'] = $request->request->get('username','');
         $param['phone'] = $request->request->get('phone','');
         $param['address'] = $request->request->get('address','');
@@ -83,7 +93,7 @@ class UserAddressController extends BaseController
      *          "description"="地址id"
      *      }
      *  },
-     *     views={"all","user-center","user","goods","shopping"},
+     *     views={"all","user-center","user","goods","shopping","master"},
      *     parameters={
      *      {"name"="username", "dataType"="string", "required"=true, "description"="联系人"},
      *      {"name"="phone", "dataType"="string", "required"=true, "description"="电话"},
@@ -97,6 +107,11 @@ class UserAddressController extends BaseController
      */
     public function editAction($id,Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $param['username'] = $request->request->get('username','');
         $param['phone'] = $request->request->get('phone','');
         $param['address'] = $request->request->get('address','');
@@ -124,7 +139,7 @@ class UserAddressController extends BaseController
      *          "description"="地址id"
      *      }
      *  },
-     *     views={"all","user-center","user","goods","shopping"},
+     *     views={"all","user-center","user","goods","shopping","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="用户token"},
      *  },
@@ -135,6 +150,11 @@ class UserAddressController extends BaseController
      */
     public function deleteAction($id,Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         if($this->get('dufa_core_manager.useraddress')->delete($id))
         {
             return $this->JsonResponse();

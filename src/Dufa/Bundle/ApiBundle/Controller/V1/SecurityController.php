@@ -18,13 +18,13 @@ class SecurityController extends BaseController
      *         1 = "System error.",
      *         -2 = "password error.",
      *     },
-     *     views={"all","user"},
+     *     views={"all","user","master"},
      *     parameters={
      *      {"name"="user_name", "dataType"="string", "required"=true, "description"="用户名"},
      *      {"name"="user_password", "dataType"="string", "required"=true, "description"="密码"},
      *  },
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
@@ -35,8 +35,8 @@ class SecurityController extends BaseController
         if ($this->checkParam($param) == false) {
             return $this->JsonResponse($param, -1, 'parameter error.');
         }
-        
         $user = $this->em()->getRepository("DufaCoreBundle:User")->findOneBy(['username' => $param['username']]);
+
         $encoderService = $this->get('security.encoder_factory');
         $encoder = $encoderService->getEncoder($user);
         if ($encoder->isPasswordValid($user->getPassword(), $param['password'], $user->getSalt())) {
@@ -59,9 +59,9 @@ class SecurityController extends BaseController
      *         412 = "parameters error.",
      *         420 = "System error.",
      *     },
-     *     views={"all","news"},
+     *     views={"all","news","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
@@ -78,12 +78,12 @@ class SecurityController extends BaseController
      *         0 = "success.",
      *         -1 = "parameters error.",
      *     },
-     *     views={"all","user"},
+     *     views={"all","user","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="用户token"},
      *  },
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
@@ -105,18 +105,22 @@ class SecurityController extends BaseController
      *  description="发送短信",
      *     statusCodes={
      *         0 = "success.",
-     *         -1 = "parameters error.",
+     *         -4 = "phone number is error.",
      *     },
+     *     views={"all","user","master"},
      *  parameters={
      *      {"name"="phone", "dataType"="string","required"=true,"description"="手机号码"},
      *  },
+     *     tags={
+     *          "完成" = "green",
+     *     }
      * )
      */
     public function sendcodeAction(Request $request)
     {
         $param['phone'] = $request->request->get('phone','');
-        if (!preg_match("/^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|189[0-9]{8}$/", $param['phone'])) {
-            return $this->JsonResponse([],-1);
+        if (!preg_match("/^1[34578]\d{9}$/", $param['phone'])) {
+            return $this->JsonResponse([],-4);
         }
         $sms = $this->container->get('dufa_core_sms');
         $result = $sms->sendCode($param['phone']);

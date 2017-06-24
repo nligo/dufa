@@ -14,25 +14,29 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User extends Base implements UserInterface
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", unique=true,name="username",options={"comment":"用户名"})
      */
     private $username = "";
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nickname", type="string", length=50, nullable=true)
+     * @ORM\Column(type="string",name="nickname",options={"comment":"用户昵称"})
      */
     private $nickname = "";
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=120, nullable=false)
+     * @ORM\Column(type="string",name="headimg",nullable=true,options={"comment":"用户头像"})
+     */
+    private $headimg = "";
+
+    /**
+     * @ORM\Column(type="string",name="password",options={"comment":"用户密码"})
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="json_array",name="roles",options={"comment":"用户角色"})
+     */
+    private $roles = array();
 
     /**
      * @var string
@@ -77,9 +81,12 @@ class User extends Base implements UserInterface
     private $dufaMoney = 0.00;
 
     /**
-     * @ORM\Column(type="json_array",name="roles",options={"comment":"user_roles"})
+     * @var string
+     *
+     * @ORM\Column(name="comment_num", type="integer", length=30, nullable=false)
      */
-    private $roles = array();
+    private $commentNum = 0;
+
 
     public function __construct()
     {
@@ -100,8 +107,6 @@ class User extends Base implements UserInterface
     public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
     }
 
     /**
@@ -115,8 +120,6 @@ class User extends Base implements UserInterface
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**
@@ -129,18 +132,15 @@ class User extends Base implements UserInterface
         if (empty($roles)) {
             $roles[] = 'ROLE_USER';
         }
-
         return array_unique($roles);
     }
 
     /**
-     * @param string
+     * @param String
      */
     public function setRole($role)
     {
         $this->roles[] = $role;
-
-        return $this;
     }
 
     /**
@@ -148,9 +148,7 @@ class User extends Base implements UserInterface
      */
     public function setRoles(array $roles)
     {
-        $this->roles = (array) $roles;
-
-        return $this;
+        $this->roles = (array)$roles;
     }
 
     /**
@@ -161,11 +159,6 @@ class User extends Base implements UserInterface
         return $this->salt;
     }
 
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-        return $this;
-    }
     /**
      * Removes sensitive data from the user.
      */
@@ -175,6 +168,11 @@ class User extends Base implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+        return $this;
+    }
 
     /**
      * Set nickname
@@ -318,5 +316,53 @@ class User extends Base implements UserInterface
     public function getDufaMoney()
     {
         return $this->dufaMoney;
+    }
+
+    /**
+     * Set commentNum
+     *
+     * @param string $commentNum
+     *
+     * @return User
+     */
+    public function setCommentNum($commentNum)
+    {
+        $this->commentNum = $commentNum;
+
+        return $this;
+    }
+
+    /**
+     * Get commentNum
+     *
+     * @return string
+     */
+    public function getCommentNum()
+    {
+        return $this->commentNum;
+    }
+
+    /**
+     * Set headimg
+     *
+     * @param string $headimg
+     *
+     * @return User
+     */
+    public function setHeadimg($headimg)
+    {
+        $this->headimg = $headimg;
+
+        return $this;
+    }
+
+    /**
+     * Get headimg
+     *
+     * @return string
+     */
+    public function getHeadimg()
+    {
+        return $this->headimg;
     }
 }

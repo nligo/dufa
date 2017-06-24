@@ -2,7 +2,6 @@
 
 namespace Dufa\Bundle\ApiBundle\Controller\V1;
 
-
 use Dufa\Bundle\ApiBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -18,7 +17,7 @@ class UserOperateController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","operate"},
+     *     views={"all","operate","master"},
      *     tags={
      *         "完成" = "green",
      *     }
@@ -26,7 +25,8 @@ class UserOperateController extends BaseController
      */
     public function getCommentTypeAction(Request $request)
     {
-        $result = $this->getParameter("comment_type");
+        $result = $this->getParameter('comment_type');
+
         return $this->JsonResponse($result);
     }
 
@@ -38,7 +38,7 @@ class UserOperateController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","operate"},
+     *     views={"all","operate","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *      {"name"="type", "dataType"="string", "required"=true, "description"="从getCommentType 中获得的参数传递过来。"},
@@ -52,17 +52,20 @@ class UserOperateController extends BaseController
      */
     public function commentAction(Request $request)
     {
-        $contents = $request->request->get('contents','');
-        $type = $request->request->get('type','default');
-        $id = $request->request->getInt('id',0);
-        $userToken = $request->request->get('userToken','');
+        $checkUser = $this->checkUserToken();
+        if (is_string($checkUser)) {
+            return $this->Response($checkUser);
+        }
+        $contents = $request->request->get('contents', '');
+        $type = $request->request->get('type', 'default');
+        $id = $request->request->getInt('id', 0);
         $user = $this->getUser();
-        $result = $this->get("dufa_core_service.comment")->comment($type,$user,$id,$contents);
-        if($result)
-        {
+        $result = $this->get('dufa_core_service.comment')->comment($type, $user, $id, $contents);
+        if ($result) {
             return $this->JsonResponse($result);
         }
-        return $this->JsonResponse([],1);
+
+        return $this->JsonResponse([], 1);
     }
 
     /**
@@ -73,7 +76,7 @@ class UserOperateController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","operate"},
+     *     views={"all","operate","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *      {"name"="type", "dataType"="string", "required"=true, "description"="从getCommentType 中获得的参数传递过来。"},
@@ -87,17 +90,22 @@ class UserOperateController extends BaseController
      */
     public function informAction(Request $request)
     {
-        $contents = $request->request->get('contents','');
-        $type = $request->request->get('type','default');
-        $id = $request->request->getInt('id',0);
-        $userToken = $request->request->get('userToken','');
+        $checkUser = $this->checkUserToken();
+        if (is_string($checkUser)) {
+            return $this->Response($checkUser);
+        }
+
+        $contents = $request->request->get('contents', '');
+        $type = $request->request->get('type', 'default');
+        $id = $request->request->getInt('id', 0);
+
         $user = $this->getUser();
-        $result = $this->get("dufa_core_service.inform")->inform($type,$user,$id,$contents);
-        if($result)
-        {
+        $result = $this->get('dufa_core_service.inform')->inform($type, $user, $id, $contents);
+        if ($result) {
             return $this->JsonResponse($result);
         }
-        return $this->JsonResponse([],1);
+
+        return $this->JsonResponse([], 1);
     }
 
     /**
@@ -108,7 +116,7 @@ class UserOperateController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","operate"},
+     *     views={"all","operate","master"},
      *     parameters={
      *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *      {"name"="type", "dataType"="string", "required"=true, "description"="从getCommentType 中获得的参数传递过来。"},
@@ -123,17 +131,21 @@ class UserOperateController extends BaseController
      */
     public function rewardAction(Request $request)
     {
-        $contents = $request->request->get('contents','');
-        $type = $request->request->get('type','default');
-        $id = $request->request->getInt('id',0);
-        $userToken = $request->request->get('userToken','');
-        $money = $request->request->get('money','');
+        $checkUser = $this->checkUserToken();
+        if (is_string($checkUser)) {
+            return $this->Response($checkUser);
+        }
+
+        $contents = $request->request->get('contents', '');
+        $type = $request->request->get('type', 'default');
+        $id = $request->request->getInt('id', 0);
+        $money = $request->request->get('money', '');
         $user = $this->getUser();
-        $result = $this->get("dufa_core_service.reward")->reward($type,$user,$money,$id,$contents);
-        if($result)
-        {
+        $result = $this->get('dufa_core_service.reward')->reward($type, $user, $money, $id, $contents);
+        if ($result) {
             return $this->JsonResponse($result);
         }
-        return $this->JsonResponse([],1);
+
+        return $this->JsonResponse([], 1);
     }
 }

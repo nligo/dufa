@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AskQuestions extends Base
 {
+    const ASK_STATUS_OPEN = "open";
+
+    const ASK_STATUS_CLOSE = "close";
+
     /**
      * @var string
      *
@@ -45,6 +49,13 @@ class AskQuestions extends Base
      * @ORM\JoinColumn(name="user", referencedColumnName="id")
      */
     private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ask_status", type="string", length=20, nullable=true)
+     */
+    private $askStatus = self::ASK_STATUS_OPEN;
 
     /**
      * Set title
@@ -164,5 +175,29 @@ class AskQuestions extends Base
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set askStatus
+     *
+     * @param string $askStatus
+     *
+     * @return AskQuestions
+     */
+    public function setAskStatus($askStatus)
+    {
+        $this->askStatus = $askStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get askStatus
+     *
+     * @return string
+     */
+    public function getAskStatus()
+    {
+        return $this->askStatus;
     }
 }

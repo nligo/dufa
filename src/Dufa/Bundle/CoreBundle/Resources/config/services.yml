@@ -30,3 +30,9 @@ services:
             - "@doctrine.orm.entity_manager"
             - "%comment_type%"
             - "@logger"
+
+    dufa_core_service.adopt_anwer:
+        class: Dufa\Bundle\CoreBundle\Service\AdoptAnwer
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@logger"

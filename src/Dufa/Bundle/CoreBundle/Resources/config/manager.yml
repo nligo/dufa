@@ -29,3 +29,9 @@ services:
           arguments:
               - "@doctrine.orm.entity_manager"
               - Dufa\Bundle\CoreBundle\Entity\Orders
+
+      dufa_core_manager.experts:
+          class: Dufa\Bundle\CoreBundle\Manager\Experts
+          arguments:
+              - "@doctrine.orm.entity_manager"
+              - Dufa\Bundle\CoreBundle\Entity\Experts

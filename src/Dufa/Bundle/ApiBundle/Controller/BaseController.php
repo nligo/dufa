@@ -51,4 +51,9 @@ class BaseController extends Controller
         $user = $this->get('session')->get($userToken)->getUser();
         return $user;
     }
+
+    public function Response($data)
+    {
+        return new Response($data);
+    }
 }

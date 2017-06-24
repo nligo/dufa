@@ -70,7 +70,6 @@ class RegisterController extends BaseController
      */
     public function companyRegAction(Request $request)
     {
-
         $userParam = [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),

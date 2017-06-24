@@ -1,0 +1,9 @@
+api_experts_service:
+    path:     /service
+    defaults: { _controller: DufaApiBundle:V1/Experts:service }
+    methods: post
+
+api_experts_judges:
+    path:     /judges
+    defaults: { _controller: DufaApiBundle:V1/Experts:judges }
+    methods: post

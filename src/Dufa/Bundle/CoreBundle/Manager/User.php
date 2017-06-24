@@ -54,4 +54,24 @@ class User
 
         return $obj;
     }
+
+    public function update($id = "",$data = array())
+    {
+        $obj = $this->getRepository()->find($id);
+        foreach ($data as $k => $v) {
+            $setMethod = 'set'.ucfirst($k);
+            if($k == "password")
+            {
+                $password = $this->encodePw($obj,$k);
+                $obj->$setMethod($password);
+            }
+            else
+            {
+                $obj->$setMethod($v);
+            }
+        }
+        $this->em->persist($obj);
+        $this->em->flush();
+        return $obj;
+    }
 }

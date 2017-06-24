@@ -22,7 +22,7 @@ class AskQuestionsAnswerController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","questions"},
+     *     views={"all","questions","master"},
      *  requirements={
      *      {
      *          "name"="aqId",
@@ -71,7 +71,7 @@ class AskQuestionsAnswerController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","questions"},
+     *     views={"all","questions","master"},
      *  requirements={
      *      {
      *          "name"="aqaId",
@@ -91,8 +91,6 @@ class AskQuestionsAnswerController extends BaseController
      */
     public function commentAction($aqaId,Request $request)
     {
-        dump($this->get('dufa_core_service.comment')->comment('default',$this->getUser(),1,'高飞'));exit;
-
         $user = $this->checkUserToken();
         if(is_string($user))
         {
@@ -110,5 +108,51 @@ class AskQuestionsAnswerController extends BaseController
         $this->em()->persist($comment);
         $this->em()->flush($comment);
         return $this->JsonResponse($comment);
+    }
+
+    /**
+     * @ApiDoc(
+     *     description="顾问-问题-设置答案状态",
+     *     statusCodes={
+     *         0 = "success.",
+     *         -1 = "parameters error.",
+     *         1 = "System error.",
+     *     },
+     *  requirements={
+     *      {
+     *          "name"="id",
+     *          "dataType"="integer",
+     *          "requirement"="\d+",
+     *          "description"="答案Id"
+     *      }
+     *  },
+     *     parameters={
+     *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
+     *      {"name"="type", "dataType"="integer", "required"=true, "description"="类型 1为采纳为最佳答案 2为采纳为一般答案 默认为2"},
+     *  },
+     *     views={"all","questions","master"},
+     *     tags={
+     *         "完成" = "green",
+     *     }
+     *  )
+     */
+    public function changeStatusAction($id,Request $request)
+    {
+        $obj = [];
+        $user = $this->checkUserToken();
+        if(is_string($user))
+        {
+            return new Response($user);
+        }
+        $type = $request->request->getInt('type',2);
+        if($type == 1)
+        {
+            $obj = $this->get('dufa_core_service.adopt_anwer')->best($id);
+        }
+        if($type == 2)
+        {
+            $obj = $this->get('dufa_core_service.adopt_anwer')->general($id);
+        }
+        return $this->JsonResponse($obj);
     }
 }

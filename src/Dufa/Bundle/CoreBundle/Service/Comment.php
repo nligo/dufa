@@ -34,6 +34,9 @@ class Comment
                 ->setType($type);
             $this->em->persist($obj);
             $this->em->flush($obj);
+            $user->setCommentNum($user->getCommentNum()+1);
+            $this->em->persist($user);
+            $this->em->flush();
             return $obj;
         }
         catch (\Exception $e)
