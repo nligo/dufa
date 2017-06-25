@@ -1,0 +1,15 @@
+backend_ask_question_list:
+    path:     /list
+    defaults: { _controller: DufaWebBundle:Backend\AskQuestions:list }
+
+backend_ask_question_new:
+    path:     /new
+    defaults: { _controller: DufaWebBundle:Backend\AskQuestions:new }
+
+backend_ask_question_edit:
+    path:     /{id}/edit
+    defaults: { _controller: DufaWebBundle:Backend\AskQuestions:edit,id: 0 }
+
+backend_ask_question_del:
+    path:     /{id}/del
+    defaults: { _controller: DufaWebBundle:Backend\AskQuestions:del,id: 0 }

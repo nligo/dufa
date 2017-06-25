@@ -1,0 +1,15 @@
+backend_goods_list:
+    path:     /list
+    defaults: { _controller: DufaWebBundle:Backend\Goods:list }
+
+backend_goods_new:
+    path:     /new
+    defaults: { _controller: DufaWebBundle:Backend\Goods:new }
+
+backend_goods_edit:
+    path:     /{id}/edit
+    defaults: { _controller: DufaWebBundle:Backend\Goods:edit,id: 0 }
+
+backend_goods_del:
+    path:     /{id}/del
+    defaults: { _controller: DufaWebBundle:Backend\Goods:del,id: 0 }

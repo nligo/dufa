@@ -9,3 +9,15 @@ backend_index_welcome:
 web_backend_useroperaterecord:
     resource: "@DufaWebBundle/Resources/config/routing/backend/user_operate_record.yml"
     prefix:   /user/operate-record
+
+web_backend_ask_questions:
+    resource: "@DufaWebBundle/Resources/config/routing/backend/ask_questions.yml"
+    prefix:   /ask-questions
+
+web_backend_goods:
+    resource: "@DufaWebBundle/Resources/config/routing/backend/goods.yml"
+    prefix:   /goods
+
+web_backend_orders:
+    resource: "@DufaWebBundle/Resources/config/routing/backend/orders.yml"
+    prefix:   /orders
