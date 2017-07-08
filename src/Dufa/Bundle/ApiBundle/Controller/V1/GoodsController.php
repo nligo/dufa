@@ -19,7 +19,6 @@ class GoodsController extends BaseController
      *     },
      *     views={"all","goods","shopping","master"},
      *     parameters={
-     *      {"name"="userToken", "dataType"="string", "required"=true, "description"="userToken"},
      *      {"name"="start", "dataType"="integer", "required"=true, "description"="start"},
      *      {"name"="limit", "dataType"="integer", "required"=true, "description"="limit"},
      *  },
