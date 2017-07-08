@@ -3,6 +3,7 @@
 namespace Dufa\Bundle\CoreBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Dufa\Bundle\CoreBundle\Entity\Comments;
 use Dufa\Bundle\CoreBundle\Entity\Informs;
 
 class Inform
