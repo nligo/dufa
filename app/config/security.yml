@@ -2,6 +2,7 @@
 # http://symfony.com/doc/current/security.html
 security:
     encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
         Dufa\Bundle\CoreBundle\Entity\User: sha512
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -17,17 +18,14 @@ security:
 
         dufa_user_api_login:
             anonymous: ~
-            methods: POST
             form_login:
                 provider: users
-                login_path: dufa_api_login
-                check_path: dufa_api_login
-                username_parameter: user_email
-                password_parameter: user_password
-
+                username_parameter: _username
+                password_parameter: _password
             remember_me:
                 secret:   '%secret%'
                 lifetime: 604800 # 1 week in seconds
+
         main:
             anonymous: ~
             # activate different ways to authenticate

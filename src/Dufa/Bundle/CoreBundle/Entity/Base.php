@@ -5,8 +5,8 @@ namespace Dufa\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-@ORM\HasLifecycleCallbacks()
- * * @ORM\MappedSuperclass()
+ *@ORM\HasLifecycleCallbacks()
+ *@ORM\MappedSuperclass()
  */
 class Base
 {

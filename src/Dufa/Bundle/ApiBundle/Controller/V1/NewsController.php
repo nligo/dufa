@@ -3,6 +3,7 @@
 namespace Dufa\Bundle\ApiBundle\Controller\V1;
 
 use Dufa\Bundle\CoreBundle\Entity\Banner;
+use Dufa\Bundle\CoreBundle\Entity\News;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Dufa\Bundle\ApiBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,30 +21,42 @@ class NewsController extends BaseController
      *  requirements={
      *      {
      *          "name"="cId",
-     *          "dataType"="integer",
-     *          "requirement"="\d+",
+     *          "dataType"="string",
      *          "description"="栏目Id"
      *      }
      *  },
-     *     views={"all","news"},
+     *     parameters={
+     *      {"name"="searchParam[]", "dataType"="array", "required"=true, "description"="要搜索的参数"},
+     *      {"name"="start", "dataType"="integer", "required"=false, "description"="start 默认为0"},
+     *      {"name"="limit", "dataType"="integer", "required"=false, "description"="limit 默认为100"},
+     *  },
+     *     views={"all","news","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
-    public function listAction($cId,Request $request)
+    public function listAction($cId = 0,Request $request)
     {
-        $result = [];
-        return $this->JsonResponse();
+        $condition = $request->query->get('searchParam',[]);
+        $start = $request->query->getInt('start',0);
+        $limit = $request->query->get('limit',100);
+        $list = $this->em()->getRepository("DufaCoreBundle:News")->getDataBy($cId,$condition,$start,$limit);
+        $count = $this->em()->getRepository("DufaCoreBundle:News")->getCount($cId,$condition);
+        $result = [
+            'total' => $count['total'],
+            'list' => $list,
+        ];
+        return $this->JsonResponse($result);
     }
 
     /**
      * @ApiDoc(
      *     description="资讯详情",
      *     statusCodes={
-     *         200 = "success.",
-     *         412 = "parameters error.",
-     *         420 = "System error.",
+     *         0 = "success.",
+     *         -1 = "parameters error.",
+     *         1 = "System error.",
      *     },
      *  requirements={
      *      {
@@ -53,15 +66,15 @@ class NewsController extends BaseController
      *          "description"="资讯Id"
      *      }
      *  },
-     *     views={"all","news"},
+     *     views={"all","news","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
     public function detailsAction($id)
     {
-        $result = [];
-        return $this->JsonResponse();
+        $info = $this->em()->getRepository("DufaCoreBundle:News")->find($id);
+        return $this->JsonResponse($info);
     }
 }

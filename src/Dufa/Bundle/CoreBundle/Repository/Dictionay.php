@@ -10,4 +10,60 @@ namespace Dufa\Bundle\CoreBundle\Repository;
  */
 class Dictionay extends \Doctrine\ORM\EntityRepository
 {
+    const ALIAS = 'd';
+
+    public function getDataBy($condition = [],$start = 0,$limit = 100)
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $qb = $this->_getWhere($qb,$condition);
+        $limit = $limit > 500 ? 500 : $limit;
+        $qb->setFirstResult($start)->setMaxResults($limit);
+        $qb->orderBy(self::ALIAS.'.createdAt','DESC');
+        $result = $qb->getQuery()->getResult();
+        return !empty($result) ? $result : array();
+    }
+
+    public function getCount($condition = [])
+    {
+        $qb = $this->createQueryBuilder(self::ALIAS);
+        $filed = self::ALIAS.'.id';
+        $qb->select("COUNT({$filed}) as total");
+        $qb = $this->_getWhere($qb,$condition);
+        $result = $qb->getQuery()->getSingleResult();
+        return !empty($result) ? $result : array();
+    }
+    /**
+     * @author  gf
+     *
+     * 生成查询条件
+     * @param $qb
+     * @param array $condition
+     * @return mixed
+     */
+    private function _getWhere($qb,$condition = array())
+    {
+        if(!empty($condition))
+        {
+            foreach ($condition as $k=>$v)
+            {
+                if(isset($k) && !empty($k) && isset($v) && !empty($v))
+                {
+                    $param  =   explode('_',$k);
+                    if(!isset($param[1]))
+                    {
+                        return $qb;
+                    }
+                    switch ($param[1]){
+                        case 'like':
+                            $qb->andWhere(self::ALIAS.'.'.$param[0].' LIKE :'.$param[0])->setParameter($param[0], '%'.$v.'%');
+                            break;
+                        case 'equal':
+                            $qb->andWhere(self::ALIAS.'.'.$param[0].' = :'.$param[0])->setParameter($param[0], $v);
+                            break;
+                    }
+                }
+            }
+        }
+        return $qb;
+    }
 }

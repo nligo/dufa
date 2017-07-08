@@ -41,7 +41,7 @@ class User
             $setMethod = 'set'.ucfirst($k);
             if($k == "password")
             {
-                $password = $this->encodePw($obj,$k);
+                $password = $this->encodePw($obj,$v);
                 $obj->$setMethod($password);
             }
             else
@@ -62,7 +62,7 @@ class User
             $setMethod = 'set'.ucfirst($k);
             if($k == "password")
             {
-                $password = $this->encodePw($obj,$k);
+                $password = $this->encodePw($obj,$v);
                 $obj->$setMethod($password);
             }
             else

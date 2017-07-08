@@ -49,11 +49,30 @@ class News extends Base
     private $cover = "";
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="category", type="string", length=120, nullable=false)
+     * @ORM\Column(name="category", type="integer",nullable=true)
      */
-    private $category = "";
+    private $category = 0;
+
+    /**
+     * @var float
+     * @ORM\Column(name="dufa_num",type="decimal", precision=10, scale=2,nullable=true)
+     */
+    private $dufaNum = '0.00';
+
+    /**
+     * @var integer
+     * @ORM\Column(name="comment_num",type="integer",nullable=true)
+     */
+    private $commentNum = '0';
+
+    /**
+     * @var integer
+     * @ORM\Column(name="view_num",type="integer",nullable=true)
+     */
+    private $viewNum = '0';
+
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -229,5 +248,77 @@ class News extends Base
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set dufaNum
+     *
+     * @param string $dufaNum
+     *
+     * @return News
+     */
+    public function setDufaNum($dufaNum)
+    {
+        $this->dufaNum = $dufaNum;
+
+        return $this;
+    }
+
+    /**
+     * Get dufaNum
+     *
+     * @return string
+     */
+    public function getDufaNum()
+    {
+        return $this->dufaNum;
+    }
+
+    /**
+     * Set commentNum
+     *
+     * @param integer $commentNum
+     *
+     * @return News
+     */
+    public function setCommentNum($commentNum)
+    {
+        $this->commentNum = $commentNum;
+
+        return $this;
+    }
+
+    /**
+     * Get commentNum
+     *
+     * @return integer
+     */
+    public function getCommentNum()
+    {
+        return $this->commentNum;
+    }
+
+    /**
+     * Set viewNum
+     *
+     * @param integer $viewNum
+     *
+     * @return News
+     */
+    public function setViewNum($viewNum)
+    {
+        $this->viewNum = $viewNum;
+
+        return $this;
+    }
+
+    /**
+     * Get viewNum
+     *
+     * @return integer
+     */
+    public function getViewNum()
+    {
+        return $this->viewNum;
     }
 }

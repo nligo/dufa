@@ -10,9 +10,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Dufa\Bundle\CoreBundle\Repository\User")
+ * @ORM\HasLifecycleCallbacks()
  */
-class User extends Base implements UserInterface
+class User implements UserInterface
 {
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer",options={"comment":"userId"})
+     */
+    private $id;
     /**
      * @ORM\Column(type="string", unique=true,name="username",options={"comment":"用户名"})
      */
@@ -87,12 +95,43 @@ class User extends Base implements UserInterface
      */
     private $commentNum = 0;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=20, nullable=false)
+     */
+    private $status = "active";
+
 
     public function __construct()
     {
         if(empty($this->salt))
         {
             $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        }
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist(){
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTime();
+            $this->updatedAt = new \DateTime();
         }
     }
 
@@ -364,5 +403,75 @@ class User extends Base implements UserInterface
     public function getHeadimg()
     {
         return $this->headimg;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Base
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Base
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

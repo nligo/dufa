@@ -21,3 +21,7 @@ web_backend_goods:
 web_backend_orders:
     resource: "@DufaWebBundle/Resources/config/routing/backend/orders.yml"
     prefix:   /orders
+
+web_backend_user_address:
+    resource: "@DufaWebBundle/Resources/config/routing/backend/user_address.yml"
+    prefix:   /user/address

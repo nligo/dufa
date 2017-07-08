@@ -4,6 +4,7 @@ namespace Dufa\Bundle\ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller
@@ -12,10 +13,10 @@ class BaseController extends Controller
     {
         if ($isEnabledSerialize == true) {
             $data = $this->get('serializer')->serialize(array('code' => $code, 'msg' => $msg, 'data' => $data), $format);
-            return new Response($data);
+            return new Response($data,200,['Access-Control-Allow-Origin'=>'*','Access-Control-Allow-Headers'=>'Content-Type']);
         }
 
-        return new JsonResponse(array('code' => $code, 'msg' => $msg, 'data' => $data),200);
+        return new JsonResponse(array('code' => $code, 'msg' => $msg, 'data' => $data),200,['Access-Control-Allow-Origin'=>'*','Access-Control-Allow-Headers'=>'Content-Type']);
     }
 
     /**
@@ -40,8 +41,16 @@ class BaseController extends Controller
 
     public function checkUserToken()
     {
-        $userToken = isset($_POST['userToken']) ? $_POST['userToken'] : "";
+        $userToken = Request::createFromGlobals()->request->get('userToken','');
         if (empty($userToken)) {
+            $result = [
+                "code" => -2,
+                "msg" => 'token error.',
+            ];
+            return json_encode($result);
+        }
+        if(empty($this->get("session")->get($userToken)))
+        {
             $result = [
                 "code" => -2,
                 "msg" => 'token error.',

@@ -20,8 +20,8 @@ class SecurityController extends BaseController
      *     },
      *     views={"all","user","master"},
      *     parameters={
-     *      {"name"="user_name", "dataType"="string", "required"=true, "description"="用户名"},
-     *      {"name"="user_password", "dataType"="string", "required"=true, "description"="密码"},
+     *      {"name"="_username", "dataType"="string", "required"=true, "description"="用户名"},
+     *      {"name"="_password", "dataType"="string", "required"=true, "description"="密码"},
      *  },
      *     tags={
      *          "完成" = "green",
@@ -30,24 +30,38 @@ class SecurityController extends BaseController
      */
     public function loginAction(Request $request)
     {
-        $param['username'] = $request->query->get('user_name');
-        $param['password'] = $request->query->get('user_password');
-        if ($this->checkParam($param) == false) {
-            return $this->JsonResponse($param, -1, 'parameter error.');
-        }
-        $user = $this->em()->getRepository("DufaCoreBundle:User")->findOneBy(['username' => $param['username']]);
 
-        $encoderService = $this->get('security.encoder_factory');
-        $encoder = $encoderService->getEncoder($user);
-        if ($encoder->isPasswordValid($user->getPassword(), $param['password'], $user->getSalt())) {
-            $token = new UsernamePasswordToken($user->getUsername(), $param['password'], 'dufa_user_api_login', $user->getRoles());
+        if($request->isMethod("post"))
+        {
+            $em = $this->getDoctrine()->getManager();
+            $username = $request->request->get('_username');
+            $password = $request->request->get('_password');
+            if(empty($username) || empty($password))
+            {
+                return $this->JsonResponse([], -1, 'parameter error.');
+            }
+            $user = $this->em()->getRepository("DufaCoreBundle:User")->findOneBy(['username' => $username]);
+            if(empty($user))
+            {
+                return $this->JsonResponse([], -1, 'parameter error.');
+            }
+
+            $encoderService = $this->get('security.encoder_factory');
+            $encoder = $encoderService->getEncoder($user);
+            if (!$encoder->isPasswordValid($user->getPassword(), $password, $user->getSalt())) {
+                return $this->JsonResponse(array(), -2, 'password error.');
+            }
+
+            $token = new UsernamePasswordToken($user, $password, 'ugogame_frontend_user', $user->getRoles());
             $this->get('security.token_storage')->setToken($token);
             $token->setUser($user);
             $frontTokenId = 'dufa_user_api_login_session_'.strtoupper(substr(md5(time()), 0, 10));
             $this->get('session')->set($frontTokenId, $token);
             return $this->JsonResponse(array('userToken'=>$frontTokenId));
-        } else {
-            return $this->JsonResponse(array(), -2, 'password error.');
+        }
+        else
+        {
+            return $this->JsonResponse([], -1, 'parameter error.');
         }
     }
 
@@ -90,7 +104,8 @@ class SecurityController extends BaseController
     public function getUserAction(Request $request)
     {
         $param['tokenId'] = $request->request->get('userToken');
-        if ($this->checkParam($param) == false) {
+        if(empty($request->getSession()->get($param['tokenId'])))
+        {
             return $this->JsonResponse($param, -1, 'parameter error.');
         }
         $user = $request->getSession()->get($param['tokenId'])->getUser();

@@ -1,0 +1,15 @@
+backend_user_address_list:
+    path:     /{userId}/list
+    defaults: { _controller: DufaWebBundle:Backend\Address:list, userId: 0 }
+
+backend_user_address_new:
+    path:     /new
+    defaults: { _controller: DufaWebBundle:Backend\Address:new }
+
+backend_user_address_edit:
+    path:     /{id}/edit
+    defaults: { _controller: DufaWebBundle:Backend\Address:edit,id: 0 }
+
+backend_user_address_del:
+    path:     /{id}/del
+    defaults: { _controller: DufaWebBundle:Backend\Address:del,id: 0 }

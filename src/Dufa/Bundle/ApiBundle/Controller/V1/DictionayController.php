@@ -2,6 +2,7 @@
 
 namespace Dufa\Bundle\ApiBundle\Controller\V1;
 
+use Dufa\Bundle\CoreBundle\Entity\Dictionay;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Dufa\Bundle\ApiBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,20 +18,28 @@ class DictionayController extends BaseController
      *         1 = "System error.",
      *     },
      *     parameters={
-     *      {"name"="searchParam[title]", "dataType"="string", "required"=true, "description"="百科名称"},
+     *      {"name"="searchParam[yourfileds_like]", "dataType"="array", "required"=true, "description"="搜索参数"},
      *      {"name"="start", "dataType"="integer", "required"=false, "description"="start 默认为0"},
      *      {"name"="limit", "dataType"="integer", "required"=false, "description"="limit 默认为100"},
      *  },
-     *     views={"all","dictionay"},
+     *     views={"all","dictionay","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
     public function listAction(Request $request)
     {
-        $result = [];
-        return $this->JsonResponse();
+        $condition = $request->query->get('searchParam',[]);
+        $start = $request->query->getInt('start',0);
+        $limit = $request->query->get('limit',100);
+        $list = $this->em()->getRepository("DufaCoreBundle:Dictionay")->getDataBy($condition,$start,$limit);
+        $count = $this->em()->getRepository("DufaCoreBundle:Dictionay")->getCount($condition);
+        $result = [
+            'total' => $count['total'],
+            'list' => $list,
+        ];
+        return $this->JsonResponse($result);
     }
 
     /**
@@ -43,6 +52,7 @@ class DictionayController extends BaseController
      *     },
      *     views={"all","dictionay"},
      *     parameters={
+     *      {"name"="userToken", "dataType"="string", "required"=true, "description"="用户token"},
      *      {"name"="title", "dataType"="string", "required"=true, "description"="词条名称"},
      *      {"name"="description", "dataType"="string", "required"=true, "description"="描述"},
      *      {"name"="cnName", "dataType"="string", "required"=false, "description"="中文标题"},
@@ -52,13 +62,19 @@ class DictionayController extends BaseController
      *      {"name"="secondTitle", "dataType"="string", "required"=true, "description"="二级标题"},
      *      {"name"="contents", "dataType"="string", "required"=true, "description"="内容"},
      *  },
+     *     views={"all","dictionay","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
     public function newAction(Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $param['title'] = $request->request->get("title");
         $param['secondTitle'] = $request->request->get("secondTitle");
         $param['contents'] = $request->request->get("contents");
@@ -67,7 +83,19 @@ class DictionayController extends BaseController
         $param['enName'] = $request->request->get("enName");
         $param['mean'] = $request->request->get("mean");
         $param['effect'] = $request->request->get("effect");
-        return $this->JsonResponse();
+        if($this->checkParam($param) == false)
+        {
+            return $this->JsonResponse($param,-1);
+        }
+        $dictonay = new Dictionay();
+        $dictonay->setUser($checkUser);
+        foreach ($param as $k => $v) {
+            $setMethod = 'set'.ucfirst($k);
+            $dictonay->$setMethod($v);
+        }
+        $this->em()->persist($dictonay);
+        $this->em()->flush();
+        return $this->JsonResponse($dictonay);
     }
 
     /**
@@ -89,13 +117,25 @@ class DictionayController extends BaseController
      *      {"name"="secondTitle", "dataType"="string", "required"=false, "description"="二级标题"},
      *      {"name"="contents", "dataType"="string", "required"=false, "description"="内容"},
      *  },
+     *     views={"all","dictionay","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
     public function editAction($id,Request $request)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
+        $dictonay = $this->em()->getRepository("DufaCoreBundle:Dictionay")->find($id);
+
+        if(empty($dictonay))
+        {
+            return $this->JsonResponse([],-1);
+        }
         $param['title'] = $request->request->get("title");
         $param['secondTitle'] = $request->request->get("secondTitle");
         $param['contents'] = $request->request->get("contents");
@@ -104,7 +144,14 @@ class DictionayController extends BaseController
         $param['enName'] = $request->request->get("enName");
         $param['mean'] = $request->request->get("mean");
         $param['effect'] = $request->request->get("effect");
-        return $this->JsonResponse();
+        $dictonay->setUser($checkUser);
+        foreach ($param as $k => $v) {
+            $setMethod = 'set'.ucfirst($k);
+            $dictonay->$setMethod($v);
+        }
+        $this->em()->persist($dictonay);
+        $this->em()->flush();
+        return $this->JsonResponse($dictonay);
     }
 
     /**
@@ -115,16 +162,21 @@ class DictionayController extends BaseController
      *         -1 = "parameters error.",
      *         1 = "System error.",
      *     },
-     *     views={"all","dictionay"},
+     *     views={"all","dictionay","master"},
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
     public function detailsAction($id)
     {
-        $result = [];
-        return $this->JsonResponse();
+        $info = $this->em()->getRepository("DufaCoreBundle:Dictionay")->find($id);
+
+        $result = [
+            'info' => $info,
+            'comments' => [],
+        ];
+        return $this->JsonResponse($result);
     }
 
     /**
@@ -143,6 +195,11 @@ class DictionayController extends BaseController
      */
     public function authorInfoAction($id)
     {
+        $checkUser = $this->checkUserToken();
+        if(is_string($checkUser))
+        {
+            return $this->Response($checkUser);
+        }
         $result = [];
         return $this->JsonResponse();
     }
@@ -156,21 +213,29 @@ class DictionayController extends BaseController
      *         1 = "System error.",
      *     },
      *
-     *     views={"all","dictionay","search"},
+     *     views={"all","dictionay","search","master"},
      *     parameters={
-     *      {"name"="keyword", "dataType"="string", "required"=false, "description"="关键字"},
+     *      {"name"="searchParam[title_like]", "dataType"="string", "required"=false, "description"="搜索标题"},
      *      {"name"="start", "dataType"="integer", "required"=false, "description"="start 默认为0"},
      *      {"name"="limit", "dataType"="integer", "required"=false, "description"="limit 默认为100"},
      *  },
      *     tags={
-     *         "定义待填写逻辑" = "red",
+     *          "完成" = "green",
      *     }
      *  )
      */
     public function searchAction(Request $request)
     {
-        $result = [];
-        return $this->JsonResponse();
+        $condition = $request->query->get('searchParam',[]);
+        $start = $request->query->getInt('start',0);
+        $limit = $request->query->get('limit',100);
+        $list = $this->em()->getRepository("DufaCoreBundle:Dictionay")->getDataBy($condition,$start,$limit);
+        $count = $this->em()->getRepository("DufaCoreBundle:Dictionay")->getCount($condition);
+        $result = [
+            'total' => $count['total'],
+            'list' => $list,
+        ];
+        return $this->JsonResponse($result);
     }
 
 
@@ -185,7 +250,7 @@ class DictionayController extends BaseController
      *     views={"all","dictionay","search"},
      *     parameters={
      *      {"name"="start", "dataType"="integer", "required"=false, "description"="start 默认为0"},
-     *      {"name"="limit", "dataType"="integer", "required"=false, "description"="limit 默认为100"},
+     *      {"name"="limit", "dataType"="integer", "required"=false, "description"="limit 10"},
      *  },
      *     tags={
      *         "定义待填写逻辑" = "red",
@@ -194,7 +259,8 @@ class DictionayController extends BaseController
      */
     public function hotSearchAction(Request $request)
     {
-        $result = [];
-        return $this->JsonResponse();
+        $limit = $request->query->get('limit',10);
+        $list = $this->em()->getRepository("DufaCoreBundle:Dictionay")->findBy([],['viewNum' => 'DESC'],$limit);
+        return $this->JsonResponse($list);
     }
 }
