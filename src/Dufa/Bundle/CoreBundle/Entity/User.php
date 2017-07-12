@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-
+    const TOKEN_VALID_TIME = "+1 day";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -108,6 +108,20 @@ class User implements UserInterface
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="token", type="string", length=255, nullable=false)
+     */
+    protected $token = "";
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="token_valid_time", type="integer", nullable=false)
+     */
+    protected $tokenValidTime = 0;
 
     /**
      * @var string
@@ -473,5 +487,22 @@ class User implements UserInterface
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+        $this->tokenValidTime = strtotime(self::TOKEN_VALID_TIME);
+        return $this;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    public function getTokenValidTime()
+    {
+        return $this->tokenValidTime;
     }
 }

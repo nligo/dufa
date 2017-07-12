@@ -56,7 +56,10 @@ class SecurityController extends BaseController
             $this->get('security.token_storage')->setToken($token);
             $token->setUser($user);
             $frontTokenId = 'dufa_user_api_login_session_'.strtoupper(substr(md5(time()), 0, 10));
-            $this->get('session')->set($frontTokenId, $token);
+
+            $user->setToken($frontTokenId);
+            $this->em()->persist($user);
+            $this->em()->flush($user);
             return $this->JsonResponse(array('userToken'=>$frontTokenId));
         }
         else
@@ -104,11 +107,11 @@ class SecurityController extends BaseController
     public function getUserAction(Request $request)
     {
         $param['tokenId'] = $request->request->get('userToken');
-        if(empty($request->getSession()->get($param['tokenId'])))
+        if(empty($param['tokenId']))
         {
             return $this->JsonResponse($param, -1, 'parameter error.');
         }
-        $user = $request->getSession()->get($param['tokenId'])->getUser();
+        $user = $this->get('dufa_core_manager.user')->getRepository()->findOneBy(['token' => $param['tokenId']]);
         return $this->JsonResponse($user);
     }
 

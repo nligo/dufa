@@ -30,7 +30,8 @@ class GoodsController extends BaseController
 
     public function newAction(Request $request)
     {
-
+        return $this->render('DufaWebBundle:Backend/Goods:new.html.twig', array(
+        ));
     }
 
     public function editAction(Goods $goods,Request $request)
