@@ -49,7 +49,7 @@ class BaseController extends Controller
             ];
             return json_encode($result);
         }
-        if(empty($this->get("session")->get($userToken)))
+        if(empty($this->get('dufa_core_manager.user')->getRepository()->findOneBy(['token' => $userToken])))
         {
             $result = [
                 "code" => -2,
@@ -57,7 +57,7 @@ class BaseController extends Controller
             ];
             return json_encode($result);
         }
-        $user = $this->get('session')->get($userToken)->getUser();
+        $user = $this->get('dufa_core_manager.user')->getRepository()->findOneBy(['token' => $userToken]);
         return $user;
     }
 
