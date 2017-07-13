@@ -86,14 +86,14 @@ class CompanyInfo extends Base
     /**
      * @var string
      *
-     * @ORM\Column(name="license", type="string", length=120, nullable=false)
+     * @ORM\Column(name="license", type="text",nullable=false)
      */
     private $license = "";
 
     /**
      * @var string
      *
-     * @ORM\Column(name="brand", type="string", length=120, nullable=false)
+     * @ORM\Column(name="brand", type="text",nullable=false)
      */
     private $brand = "";
 

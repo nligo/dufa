@@ -22,7 +22,7 @@ class Banner extends Base
     /**
      * @var string
      *
-     * @ORM\Column(name="image_url", type="string", length=120, nullable=false,options={"comment":"图片地址"})
+     * @ORM\Column(name="image_url", type="text", nullable=false,options={"comment":"图片地址"})
      */
     private $imageUrl;
 

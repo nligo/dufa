@@ -40,7 +40,7 @@ class AskQuestions extends Base
     /**
      * @var string
      *
-     * @ORM\Column(name="img_url", type="string", length=120, nullable=true)
+     * @ORM\Column(name="img_url", type="text", nullable=true)
      */
     private $imgUrl = "";
 

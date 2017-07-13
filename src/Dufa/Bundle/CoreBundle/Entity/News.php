@@ -44,7 +44,7 @@ class News extends Base
     /**
      * @var string
      *
-     * @ORM\Column(name="cover", type="string", length=120, nullable=false)
+     * @ORM\Column(name="cover",type="text",nullable=false)
      */
     private $cover = "";
 
